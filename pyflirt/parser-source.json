@@ -1,0 +1,25 @@
+{
+  "upstream_repository": "https://github.com/williballenthin/lancelot",
+  "upstream_commit": "9de1820bf36872175a08987882dc42f6112d2f44",
+  "published_sdist_sha256": "f180d7fcdc110cbc5197d27c58fe7cd57adc2eead0a0b562d47ab0b0a85a3b20",
+  "unchanged_parser_files": {
+    "flirt/Cargo.toml": "db136a4ae9248a4898df42d7002fcf439bc5120e9a9e6bd19785e5ad97eaa69f",
+    "flirt/README.md": "eb9296668acfb6374b3b79cfaab966122f315b322711310c9c8a62506cb2f3c4",
+    "flirt/benches/fragments.txt": "b75e66c83c8a05a8c8939178d4eb58a7bc36c4022c2ba6e5941d9eaa212d1c85",
+    "flirt/benches/patterns.txt": "242ad8b2b02c4a5c2d7cab13ce414a337b578658ae61f21ade68830d8ccd150b",
+    "flirt/benches/regex.rs": "3a88b31f65f7d91ba9e04745244d0a6f4a50660f88b410cf27385fc96b1dae61",
+    "flirt/sig.bt": "e3a5595ae421f065173fa26ced12556def0e59751604a409423284beb975ed9d",
+    "flirt/sigs/pat/__EH_prolog3.pat": "3b4315b132017214a18799b12268a2ff8de5ca2eb4ed92aa7a2e4e52edc582fd",
+    "flirt/sigs/sig/libcmt_15_msvc_x86.dumpsig": "9f144b43ab0395dcb2fdc77e9acad7039670b60ce0bee8f1ec8ba69161eaaf2b",
+    "flirt/sigs/sig/libcmt_15_msvc_x86.sig": "8fda83a056251d833e435ab553dcdc6270cc12a0b57a1ce59ef0f75f616952d6",
+    "flirt/sigs/yara/__EH_prolog3.yara": "efd15f451cf1fee1d8eeef65ca2209f1c1958f23fc0b3f9a60f160b6a86994ac",
+    "flirt/src/bin/decompress_sig.rs": "4aee9164624c520a55dd80786842261a6b1760f705c1263151d2a52c72b10e78",
+    "flirt/src/bin/parsepat.rs": "9d4ef97927ec2a3febc35ea2f12d617289531bee9ad2c57d64511846637eaa89",
+    "flirt/src/bin/sig2pat.rs": "64b24c893a223dfd314748cd4be25cbc2d19a99edabd1274cca73c0ee675f6cf",
+    "flirt/src/decision_tree.rs": "9946c93aea4ae804caa03604d1748ef4fdf1aafef3409e503d953259417048d3",
+    "flirt/src/lib.rs": "78403ac779fa434ed507987daffe319c2f7380cf9a4fa3e988266d3f0181df6b",
+    "flirt/src/pat/mod.rs": "35d96d9a2be85675539a99b3408e8f8c705ab78896a192b0c06af50fa30e2f78",
+    "flirt/src/pattern_set.rs": "e8bdc0d6f54d15a1208c61e683f86a91ea07dfae249e3cfa6d911ca220d8f940",
+    "flirt/src/sig/mod.rs": "295c1a901faf58145072b5a55513acba3477ad08ae1aa1c886f2e9f60b006830"
+  }
+}

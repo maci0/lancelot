@@ -3,14 +3,7 @@
 [workspace]
 resolver = "2"
 
-members = [
-    "core",
-    "flirt",
-    "pyflirt",
-    "pylancelot",
-    "jslancelot",
-    "bin",
-]
+members = ["flirt", "pyflirt"]
 
 [profile.release]
 lto = "fat"

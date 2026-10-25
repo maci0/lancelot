@@ -40,7 +40,7 @@ fn to_py_err(e: Error) -> PyErr {
 
 /// A FLIRT signature that can be used to match a sequence of bytes to function
 /// name.
-#[pyclass]
+#[pyclass(from_py_object)]
 #[derive(Clone)]
 pub struct FlirtSignature {
     inner: lancelot_flirt::FlirtSignature,

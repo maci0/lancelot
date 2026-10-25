@@ -1,6 +1,6 @@
 [project]
 name = "python-flirt"
-version = "0.10.2"
+version = "0.10.2+relumea.1"
 description = "A Python library for parsing, compiling, and matching Fast Library Identification and Recognition Technology (FLIRT) signatures."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -41,5 +41,5 @@ dev = [
 repository = "https://github.com/williballenthin/lancelot/tree/master/pyflirt"
 
 [build-system]
-requires = ["maturin>=1,<2"]
+requires = ["maturin==1.15.0"]
 build-backend = "maturin"

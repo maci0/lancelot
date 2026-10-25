@@ -1,0 +1,75 @@
+name: Relumea Python FLIRT
+on:
+  push:
+    branches: [build/python315-pyo3-030]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+jobs:
+  wheels:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            python: '3.15.1'
+            abi: cp315-cp315
+          - os: ubuntu-24.04
+            python: '3.14.9'
+            abi: cp314-cp314
+          - os: macos-latest
+            python: '3.15.1'
+          - os: windows-latest
+            python: '3.15.1'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      SOURCE_DATE_EPOCH: '1792886400'
+      CARGO_INCREMENTAL: '0'
+      WHEEL_PYTHON: ${{ matrix.python }}
+      WHEEL_ABI: ${{ matrix.abi }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          version: '0.13.5'
+          python-version: ${{ matrix.python }}
+      - name: Build portable Linux wheel with frozen builder
+        if: runner.os == 'Linux'
+        run: |
+          set -euo pipefail
+          docker build -f pyflirt/Dockerfile.manylinux -t relumea-python-flirt-manylinux:315 .
+          mkdir -p dist
+          docker run --rm -e SOURCE_DATE_EPOCH -e CARGO_INCREMENTAL -e WHEEL_ABI \
+            -e CARGO_TARGET_DIR=/tmp/target \
+            -e 'RUSTFLAGS=--remap-path-prefix=/io=/usr/src/lancelot --remap-path-prefix=/opt/cargo/registry=/usr/src/cargo' \
+            -v "$PWD:/io:ro" -v "$PWD/dist:/out" relumea-python-flirt-manylinux:315 \
+            bash -c 'set -euo pipefail; /opt/python/"$WHEEL_ABI"/bin/python -m pip install --require-hashes -r /io/pyflirt/build-requirements.txt; /opt/python/"$WHEEL_ABI"/bin/python -m maturin build --release --locked --manifest-path /io/pyflirt/Cargo.toml --interpreter /opt/python/"$WHEEL_ABI"/bin/python --compatibility manylinux_2_28 --out /out'
+      - name: Build native macOS or Windows wheel
+        if: runner.os != 'Linux'
+        working-directory: pyflirt
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.99.1 --profile minimal
+          rustup default 1.99.1
+          uv build --wheel --python "$WHEEL_PYTHON" --config-setting=maturin.build-args=--locked --out-dir ../dist
+      - name: Test the actual wheel against upstream fixtures
+        run: |
+          set -euo pipefail
+          set -- dist/*.whl
+          uv run --no-project --python "$WHEEL_PYTHON" --with pytest==9.1.1 --with "$1" pytest pyflirt/tests -q
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: dist/*.whl
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: python-flirt-${{ matrix.os }}-${{ matrix.python }}
+          path: dist/*.whl
+          if-no-files-found: error
